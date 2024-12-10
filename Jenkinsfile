@@ -61,13 +61,16 @@ pipeline {
                         discord.bot.token=${env.DISCORD_TOKEN}
                         discord.guild.id=${env.DISCORD_GUILD_ID}
                         discord.bot.id=1315920925601959986
+                        discord.arceus.status.message.id=1315956000464834592
+                        discord.refbot.status.message.id=1315956002054471712
+                        discord.rotom.status.message.id=1315956002985742377
 
                         # Channel IDs
                         discord.health.channel.id=1314476014004604941
 
                         # Domain configuration
                         arceus.url=http://51.81.32.234:1212/arceus
-                        ref_bot.url=http://51.81.32.234:1211/fcfb_discord
+                        refbot.url=http://51.81.32.234:1211/fcfb_discord
 
                         # Server configuration
                         server.port=1210

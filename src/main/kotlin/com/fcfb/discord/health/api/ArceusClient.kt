@@ -1,6 +1,7 @@
 package com.fcfb.discord.health.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fcfb.discord.health.utils.Logger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -57,9 +58,7 @@ class ArceusClient {
     private suspend fun getRequest(endpointUrl: String): String? {
         return try {
             val response: HttpResponse = httpClient.get(endpointUrl)
-            val jsonResponse = response.bodyAsText()
-            val objectMapper = ObjectMapper()
-            objectMapper.readValue(jsonResponse, String::class.java)
+            return response.bodyAsText()
         } catch (e: Exception) {
             Logger.error(e.message ?: "Unknown error occurred while making a get request to the Arceus endpoint")
             null
