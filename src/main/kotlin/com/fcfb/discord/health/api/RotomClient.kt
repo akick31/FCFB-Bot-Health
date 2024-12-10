@@ -1,6 +1,6 @@
 package com.fcfb.discord.health.api
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fcfb.discord.health.model.health.BotHealth
 import com.fcfb.discord.health.utils.Logger
 import io.ktor.client.HttpClient
@@ -63,7 +63,7 @@ class RotomClient {
                     contentType(ContentType.Application.Json)
                 }
             val jsonResponse = response.bodyAsText()
-            val objectMapper = ObjectMapper()
+            val objectMapper = jacksonObjectMapper()
             objectMapper.readValue(jsonResponse, BotHealth::class.java)
         } catch (e: Exception) {
             Logger.error(e.message ?: "Unknown error occurred while making a get request to the Rotom endpoint")

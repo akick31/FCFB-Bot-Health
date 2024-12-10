@@ -41,8 +41,10 @@ class FCFBBotHealth(
         runBlocking {
             try {
                 startHeartbeat()
-                scheduleRestart()
+                startRestartJob()
+                initializeBot()
                 startMonitoringHealth()
+                startServices()
             } catch (e: Exception) {
                 Logger.error("Failed to start bot: ${e.message}", e)
             }
@@ -71,7 +73,7 @@ class FCFBBotHealth(
     /**
      * Schedule a restart for 4 AM EST every day
      */
-    private fun scheduleRestart() {
+    private fun startRestartJob() {
         restartJob?.cancel() // Cancel any existing restart job
         restartJob =
             CoroutineScope(Dispatchers.IO).launch {
@@ -93,6 +95,20 @@ class FCFBBotHealth(
     }
 
     /**
+     * Start monitoring bot health
+     */
+    private fun startMonitoringHealth() {
+        monitorHealthJob?.cancel() // Cancel any existing health monitor job
+        monitorHealthJob =
+            CoroutineScope(Dispatchers.IO).launch {
+                while (isActive) {
+                    delay(2.minutes)
+                    monitorBotHealth.checkBotHealth(client)
+                }
+            }
+    }
+
+    /**
      * Restart the Discord bot
      */
     private suspend fun restartMonitoringHealth() {
@@ -108,7 +124,7 @@ class FCFBBotHealth(
     /**
      * Clean up any resources, including heartbeat job
      */
-    fun stop() {
+    fun stopJobs() {
         heartbeatJob?.cancel()
         monitorHealthJob?.cancel()
         restartJob?.cancel()
@@ -118,24 +134,24 @@ class FCFBBotHealth(
     /**
      * Initialize the Discord bot with Kord
      */
-    private suspend fun startMonitoringHealth() {
+    private suspend fun initializeBot() {
         client = Kord(properties.getDiscordProperties().token)
         Logger.info("Bot Health Monitor initialized successfully!")
+    }
+
+    /**
+     * Start the Ktor server and Discord bot
+     */
+    private fun startServices() =
         runBlocking {
             launch {
                 loginToDiscord()
             }
         }
-        monitorHealthJob?.cancel() // Cancel any existing health monitor job
-        monitorHealthJob =
-            CoroutineScope(Dispatchers.IO).launch {
-                while (isActive) {
-                    delay(5.minutes)
-                    monitorBotHealth.checkBotHealth(client)
-                }
-            }
-    }
 
+    /**
+     * Login to Discord
+     */
     private suspend fun loginToDiscord() {
         Logger.info("Logging into the Bot Health Monitor...")
         client.login {
@@ -171,5 +187,5 @@ fun main() {
 
     val bot: FCFBBotHealth = getKoin().get()
     bot.start()
-    Runtime.getRuntime().addShutdownHook(Thread { bot.stop() })
+    Runtime.getRuntime().addShutdownHook(Thread { bot.stopJobs() })
 }

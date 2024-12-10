@@ -4,6 +4,7 @@ import com.fcfb.discord.health.api.ArceusClient
 import com.fcfb.discord.health.api.RefBotClient
 import com.fcfb.discord.health.api.RotomClient
 import com.fcfb.discord.health.handlers.discord.DiscordMessageHandler
+import com.fcfb.discord.health.utils.Logger
 import dev.kord.core.Kord
 
 class MonitorBotHealth(
@@ -13,26 +14,29 @@ class MonitorBotHealth(
     private val discordMessageHandler: DiscordMessageHandler,
 ) {
     suspend fun checkBotHealth(client: Kord) {
+        Logger.info("Checking bot health")
         val arceusHealth = arceusClient.getHealth()
         val refBotHealth = refBotClient.getHealth()
         val rotomHealth = rotomClient.getHealth()
 
         if (arceusHealth != "Application is healthy") {
-            discordMessageHandler.sendBotDownMessage(client, "Arceus Backend Service")
+            discordMessageHandler.editArceusBotMessage(client, false)
         } else {
-            discordMessageHandler.sendBotUpMessage(client, "Arceus Backend Service")
+            discordMessageHandler.editArceusBotMessage(client, true)
         }
 
         if (refBotHealth?.status != "UP") {
-            discordMessageHandler.sendBotDownMessage(client, "Discord Ref Bot")
+            discordMessageHandler.editRefBotMessage(client, false)
         } else {
-            discordMessageHandler.sendBotUpMessage(client, "Discord Ref Bot")
+            discordMessageHandler.editRefBotMessage(client, true)
         }
 
         if (rotomHealth?.status != "UP") {
-            discordMessageHandler.sendBotDownMessage(client, "Rotom Ping Service")
+            discordMessageHandler.editRotomMessage(client, false)
         } else {
-            discordMessageHandler.sendBotUpMessage(client, "Rotom Ping Service")
+            discordMessageHandler.editRotomMessage(client, true)
         }
+
+        Logger.info("Bot health check completed at ${System.currentTimeMillis()}")
     }
 }
