@@ -78,7 +78,7 @@ tasks.withType<Copy> {
 }
 
 tasks.jar {
-    manifest.attributes["Main-Class"] = "com.fcfb.discord.refbot.FCFBDiscordRefBotKt"
+    manifest.attributes["Main-Class"] = "com.fcfb.discord.refbot.FCFBBotHealthKt"
     val dependencies =
         configurations
             .runtimeClasspath
