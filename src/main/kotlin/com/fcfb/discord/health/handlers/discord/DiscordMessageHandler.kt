@@ -25,11 +25,12 @@ class DiscordMessageHandler(
         val channel = client.getChannel(Snowflake(properties.getDiscordProperties().healthChannelId)) as MessageChannel
         val message = channel.getMessage(Snowflake(properties.getDiscordProperties().arceusStatusMessageId))
         var messageContent = "**Arceus Status:** "
-        messageContent += if (status) {
-            "UP"
-        } else {
-            "DOWN"
-        }
+        messageContent +=
+            if (status) {
+                "UP"
+            } else {
+                "DOWN"
+            }
         editMessage(message, messageContent)
     }
 
@@ -45,11 +46,12 @@ class DiscordMessageHandler(
         val channel = client.getChannel(Snowflake(properties.getDiscordProperties().healthChannelId)) as MessageChannel
         val message = channel.getMessage(Snowflake(properties.getDiscordProperties().refbotStatusMessageId))
         var messageContent = "**Discord Ref Bot Status:** "
-        messageContent += if (status) {
-            "UP"
-        } else {
-            "DOWN"
-        }
+        messageContent +=
+            if (status) {
+                "UP"
+            } else {
+                "DOWN"
+            }
         editMessage(message, messageContent)
     }
 
@@ -65,11 +67,12 @@ class DiscordMessageHandler(
         val channel = client.getChannel(Snowflake(properties.getDiscordProperties().healthChannelId)) as MessageChannel
         val message = channel.getMessage(Snowflake(properties.getDiscordProperties().rotomStatusMessageId))
         var messageContent = "**Rotom Ping Service Status:** "
-        messageContent += if (status) {
-            "UP"
-        } else {
-            "DOWN"
-        }
+        messageContent +=
+            if (status) {
+                "UP"
+            } else {
+                "DOWN"
+            }
         editMessage(message, messageContent)
     }
 

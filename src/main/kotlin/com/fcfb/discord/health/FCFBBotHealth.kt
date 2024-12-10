@@ -21,7 +21,6 @@ import org.koin.mp.KoinPlatform.getKoin
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @KordPreview
@@ -142,12 +141,12 @@ class FCFBBotHealth(
     /**
      * Start the Ktor server and Discord bot
      */
-    private fun startServices(
-    ) = runBlocking {
-        launch {
-            loginToDiscord()
+    private fun startServices() =
+        runBlocking {
+            launch {
+                loginToDiscord()
+            }
         }
-    }
 
     /**
      * Login to Discord

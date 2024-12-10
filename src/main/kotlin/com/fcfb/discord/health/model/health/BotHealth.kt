@@ -11,5 +11,5 @@ data class BotHealth(
     @JsonProperty("memory") var memory: Map<String, String>?,
     @JsonProperty("disk_space") var diskSpace: Map<String, String>?,
     @JsonProperty("kord") var kord: Map<String, String>?,
-    @JsonProperty("message") var message: String?
+    @JsonProperty("message") var message: String?,
 )
