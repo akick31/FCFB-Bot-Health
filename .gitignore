@@ -1,3 +1,10 @@
+### Resources ###
+application.properties
+
+### Images ###
+*.png
+
+.idea
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -15,9 +22,6 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
-### Kotlin ###
-.kotlin
 
 ### Eclipse ###
 .apt_generated
