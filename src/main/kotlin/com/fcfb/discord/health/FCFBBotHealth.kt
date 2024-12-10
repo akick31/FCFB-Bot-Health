@@ -21,6 +21,7 @@ import org.koin.mp.KoinPlatform.getKoin
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @KordPreview
@@ -101,7 +102,7 @@ class FCFBBotHealth(
         monitorHealthJob =
             CoroutineScope(Dispatchers.IO).launch {
                 while (isActive) {
-                    delay(5.seconds)
+                    delay(2.minutes)
                     monitorBotHealth.checkBotHealth(client)
                 }
             }
